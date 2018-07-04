@@ -1,10 +1,11 @@
 {
   "name": "packageify",
   "version": "0.0.1",
-  "description": "",
+  "description": "a package-bunler based Browserify",
   "main": "index.js",
   "scripts": {
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "start": "node scripts/start.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
     ]
   },
   "keywords": [
+    "bundler",
     "packager",
     "multipage"
   ],

@@ -2,7 +2,7 @@
     "src": "src",
     "dist": "dist",
     "browserify": {
-        "libDir": "static/js/lib",
+        "libDir": "lib/js",
         "lib": {
             "global": [
                 "react",

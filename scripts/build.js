@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 var path = require('path');
 var child_process = require('child_process');
 var shell = require('shelljs');
@@ -6,6 +8,11 @@ var readdir = require('recursive-readdir');
 var projectrcUtil = require('./projectrc-utils');
 var projectrc = projectrcUtil.getProjectrc();
 var log = console.log.bind(console);
+
+if (process.cwd() !== path.resolve(__dirname, '../'))
+    throw new Error('script must run at project root folder');
+
+shell.rm('-rf', projectrc.dist);
 
 function getDistName(filename) {
     var relative = path.relative(projectrc.src, filename);
@@ -72,6 +79,12 @@ readdir(projectrc.src, function(err, files) {
             var distdir = path.dirname(destname);
             shell.mkdir('-p', distdir);
             exec(cmd);
+        } else if (/\.copy(\.\w+)$/i.test(file)) {
+            destname = destname.replace(/\.copy(\.\w+)$/i, '$1');
+            var distdir = path.dirname(destname);
+            shell.mkdir('-p', distdir);
+            shell.cp('-f', file, destname);
+            log(chalk.yellow(`copy resorce: ${file}`));
         } else if (/\.less$/i.test(file)) {
             destname = destname.replace(/\.less$/i, '.css');
             var cmd = `lessc --clean-css ${file} > ${destname}`;
