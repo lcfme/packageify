@@ -4,6 +4,7 @@ var path = require('path');
 var child_process = require('child_process');
 var shell = require('shelljs');
 var chalk = require('chalk');
+var _ = require('lodash');
 var readdir = require('recursive-readdir');
 var projectrcUtil = require('./projectrc-utils');
 var projectrc = projectrcUtil.getProjectrc();
@@ -74,44 +75,54 @@ bundleLibJsCmd.forEach(cmd => {
  * 遍历文件
  */
 
-readdir(projectrc.src, function(err, files) {
-    if (err) throw new Error('Error happened when readdir error.');
-    files.forEach(file => {
-        var dirname = path.dirname(file),
-            destname = getDistName(file);
-        if (/\.entry\.jsx?$/i.test(file)) {
-            destname = destname.replace(/\.entry\.jsx?$/i, '.js');
-            var cmd = `browserify ${jsExternalString} -e ${file} -g [ envify --NODE_ENV ${
-                process.env.NODE_ENV === 'production'
-                    ? 'production'
-                    : 'development'
-            } ] > ${destname}`;
-            var distdir = path.dirname(destname);
-            shell.mkdir('-p', distdir);
-            exec(cmd);
-        } else if (/\.copy(\.\w+)$/i.test(file)) {
-            destname = destname.replace(/\.copy(\.\w+)$/i, '$1');
-            var distdir = path.dirname(destname);
-            shell.mkdir('-p', distdir);
-            shell.cp('-f', file, destname);
-            log(chalk.yellow(`copy resorce: ${file}`));
-        } else if (/\.less$/i.test(file)) {
-            destname = destname.replace(/\.less$/i, '.css');
-            var cmd = `lessc --clean-css ${file} > ${destname}`;
-            var distdir = path.dirname(destname);
-            shell.mkdir('-p', distdir);
-            exec(cmd);
-        } else if (/\.html$/i.test(file)) {
-            var cmd = `html-img-loader -f ${file} -s 50 > ${destname}`;
-            var distdir = path.dirname(destname);
-            shell.mkdir('-p', distdir);
-            exec(cmd);
-        } else if (!/^\.(html)|(less)|(template)|(jsx?)$/.test(file)) {
-            var distdir = path.dirname(destname);
-            shell.mkdir('-p', distdir);
-            shell.cp('-f', file, destname);
-        } else {
-            log(chalk.yellow(`unresolved resorce: ${file}`));
-        }
-    });
-});
+log(chalk.red(projectrc.browserify._libDir));
+
+readdir(
+    projectrc.src,
+    [
+        _.isPlainObject(projectrc.browserify)
+            ? projectrc.browserify._libDir || ''
+            : ''
+    ],
+    function(err, files) {
+        if (err) throw new Error('Error happened when readdir error.');
+        files.forEach(file => {
+            var dirname = path.dirname(file),
+                destname = getDistName(file);
+            if (/\.entry\.jsx?$/i.test(file)) {
+                destname = destname.replace(/\.entry\.jsx?$/i, '.js');
+                var cmd = `browserify ${jsExternalString} -e ${file} -g [ envify --NODE_ENV ${
+                    process.env.NODE_ENV === 'production'
+                        ? 'production'
+                        : 'development'
+                } ] > ${destname}`;
+                var distdir = path.dirname(destname);
+                shell.mkdir('-p', distdir);
+                exec(cmd);
+            } else if (/\.copy(\.\w+)$/i.test(file)) {
+                destname = destname.replace(/\.copy(\.\w+)$/i, '$1');
+                var distdir = path.dirname(destname);
+                shell.mkdir('-p', distdir);
+                shell.cp('-f', file, destname);
+                log(chalk.yellow(`copy resorce: ${file}`));
+            } else if (/\.less$/i.test(file)) {
+                destname = destname.replace(/\.less$/i, '.css');
+                var cmd = `lessc --clean-css ${file} > ${destname}`;
+                var distdir = path.dirname(destname);
+                shell.mkdir('-p', distdir);
+                exec(cmd);
+            } else if (/\.html$/i.test(file)) {
+                var cmd = `html-img-loader -f ${file} -s 50 > ${destname}`;
+                var distdir = path.dirname(destname);
+                shell.mkdir('-p', distdir);
+                exec(cmd);
+            } else if (!/^\.(html)|(less)|(template)|(jsx?)$/.test(file)) {
+                var distdir = path.dirname(destname);
+                shell.mkdir('-p', distdir);
+                shell.cp('-f', file, destname);
+            } else {
+                log(chalk.yellow(`unresolved resorce: ${file}`));
+            }
+        });
+    }
+);

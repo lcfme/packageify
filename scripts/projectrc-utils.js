@@ -29,6 +29,7 @@ if (_.isPlainObject(projectrc.browserify)) {
             throw new Error(
                 'projectrc.browserify is invalid. Please ensure it has libDir schema to specify output lib dir.'
             );
+        config._libDir = resolve(projectrc.src, config.libDir);
         config.libDir = resolve(projectrc.dist, config.libDir);
         if (_.isPlainObject(config.lib)) {
             Object.keys(config.lib).forEach(libName => {
