@@ -19,13 +19,12 @@ if (!_.isPlainObject(projectrc) || !projectrc.src || !projectrc.dist)
     throw new Error(
         `projectrc.json is invalid. projectrc must has dist, src schema to specify your source foler and output folder`
     );
-    projectrc.src = resolve(projectrc.src);
-    projectrc.dist = resolve(projectrc.dist);
+projectrc.src = resolve(projectrc.src);
+projectrc.dist = resolve(projectrc.dist);
 
 if (_.isPlainObject(projectrc.browserify)) {
     (function() {
-        var config = projectrc.browserify,
-            currentLib;
+        var config = projectrc.browserify;
         if (!config.libDir)
             throw new Error(
                 'projectrc.browserify is invalid. Please ensure it has libDir schema to specify output lib dir.'

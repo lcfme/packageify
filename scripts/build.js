@@ -96,7 +96,7 @@ readdir(projectrc.src, function(err, files) {
             var distdir = path.dirname(destname);
             shell.mkdir('-p', distdir);
             exec(cmd);
-        } else if (!/^\.(html)|(less)|(jsx?)$/.test(file)) {
+        } else if (!/^\.(html)|(less)|(template)|(jsx?)$/.test(file)) {
             var distdir = path.dirname(destname);
             shell.mkdir('-p', distdir);
             shell.cp('-f', file, destname);

@@ -13,8 +13,8 @@
   },
   "browserify": {
     "transform": [
-      "brfs",
-      "babelify"
+      "babelify",
+      "brfs"
     ]
   },
   "keywords": [
