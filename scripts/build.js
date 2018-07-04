@@ -40,7 +40,13 @@ var bundleLibJsCmd = (function(jsLib) {
             jsLib[libName].reduce((r, dep) => {
                 return r + ' -r ' + dep;
             }, '') +
-            ' > ' +
+            ` -g [ envify --NODE_ENV ${
+                process.env.NODE_ENV === 'production'
+                    ? 'production'
+                    : 'development'
+            } ] ${
+                process.env.NODE_ENV === 'production' ? '-g uglifyify' : ''
+            } > ` +
             targetName
         );
     });
@@ -75,7 +81,11 @@ readdir(projectrc.src, function(err, files) {
             destname = getDistName(file);
         if (/\.entry\.jsx?$/i.test(file)) {
             destname = destname.replace(/\.entry\.jsx?$/i, '.js');
-            var cmd = `browserify ${jsExternalString} -e ${file} > ${destname}`;
+            var cmd = `browserify ${jsExternalString} -e ${file} -g [ envify --NODE_ENV ${
+                process.env.NODE_ENV === 'production'
+                    ? 'production'
+                    : 'development'
+            } ] > ${destname}`;
             var distdir = path.dirname(destname);
             shell.mkdir('-p', distdir);
             exec(cmd);
