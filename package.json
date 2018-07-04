@@ -1,6 +1,6 @@
 {
   "name": "packageify2",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "a package-bunler based Browserify",
   "main": "index.js",
   "scripts": {
