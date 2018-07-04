@@ -1,5 +1,5 @@
 {
-  "name": "packageify",
+  "name": "packageify2",
   "version": "0.0.1",
   "description": "a package-bunler based Browserify",
   "main": "index.js",
