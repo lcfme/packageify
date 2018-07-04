@@ -7,7 +7,7 @@ var template = fs.readFileSync(
     path.resolve(__dirname, '../template/someFile.template'),
     'utf-8'
 );
-console.log(template);
+
 console.log(yourlib);
 
 class App extends React.Component {
