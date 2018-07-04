@@ -9,7 +9,7 @@
                 "react-dom"
             ],
             "config": [
-                "lib/yourlib"
+                "lib/yourlib:yourlib"
             ]
         }
     }
