@@ -1,0 +1,16 @@
+{
+    "src": "src",
+    "dist": "dist",
+    "browserify": {
+        "libDir": "static/js/lib",
+        "lib": {
+            "global": [
+                "react",
+                "react-dom"
+            ],
+            "config": [
+                "lib/yourlib:yourlib"
+            ]
+        }
+    }
+}

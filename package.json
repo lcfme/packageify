@@ -1,0 +1,55 @@
+{
+  "name": "packageify",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcfme/packageify.git"
+  },
+  "browserify": {
+    "transform": [
+      "brfs",
+      "babelify"
+    ]
+  },
+  "keywords": [
+    "packager",
+    "multipage"
+  ],
+  "author": "Liu Chaofan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lcfme/packageify/issues"
+  },
+  "homepage": "https://github.com/lcfme/packageify#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
+    "brfs": "^2.0.0",
+    "browserify": "^16.2.2",
+    "chalk": "^2.4.1",
+    "clean-css": "^4.1.11",
+    "debounce": "^1.1.0",
+    "gaze": "^1.1.3",
+    "html-img-loader": "^1.0.7",
+    "http-server": "^0.11.1",
+    "is-node-modules": "^1.0.0",
+    "less": "^3.0.4",
+    "lodash": "^4.17.10",
+    "readjson": "^1.1.4",
+    "recursive-readdir": "^2.2.2",
+    "shelljs": "^0.8.2",
+    "uglify-js": "^3.4.3"
+  },
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  }
+}
